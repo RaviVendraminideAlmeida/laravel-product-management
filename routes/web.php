@@ -4,7 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    //return view('welcome');
+    return response()->json([ "Hello" => "World"]);
 });
 
 Route::get('/dashboard', function () {
