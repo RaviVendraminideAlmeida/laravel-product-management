@@ -13,4 +13,9 @@ class Product extends Model
     private string $description;
     private string $brand;
     private float $price;
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 }

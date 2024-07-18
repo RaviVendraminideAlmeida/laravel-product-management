@@ -1,1 +1,3 @@
-<h1>Welcome to my PHP</h1>
+<x-app-layout>
+    <h1>Hello!</h1>
+</x-app-layout>
