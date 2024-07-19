@@ -65,11 +65,12 @@
                     <div class="p-6 text-gray-900 dark:text-gray-100 space-y-2">
                         <p><bold class="font-semibold">Name:</bold> {{ $category->name }}</p>
                         <p><bold class="font-semibold">Description:</bold> {{ $category->description }}</p>
-                        <form class="max-w-fit" method="POST">
-                            {{ csrf_field() }}
-                            {{ method_field('DELETE') }}
-                            <x-secondary-button type="submit">Update</x-secondary-button>
-                        </form>
+                        <x-secondary-button
+                            x-data="{{$category}}}"
+                            x-on:click.prevent="$dispatch('open-modal', 'category-update')"
+                        >
+                            Update
+                        </x-secondary-button>
                         <form class="max-w-fit" method="POST" action="/categories/{{$category->id}}">
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}
@@ -80,6 +81,44 @@
             @endforeach
         </div>
 
+            <x-modal name="category-update" focusable>
+                <form method="post" action="{{ route('category.update') }}" class="p-5">
+                    @csrf
+                    @method('patch')
+
+                    <h3 class="text-lg font-semibold text-white text-center">Category Update</h3>
+
+                    <div class="space-y-3">
+                        <div>
+                            <x-input-label for="name" :value="__('Name')" />
+                            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" value="{{$category->name}}" required autofocus autocomplete="name" />
+                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                        </div>
+
+                        <div>
+                            <x-input-label for="description" :value="__('Description')" />
+                            <x-textarea-input id="description" class="block mt-1 w-full min-h-36" type="text" name="description" required autofocus autocomplete="description">
+                                {{ $category->description }}
+                            </x-textarea-input>
+                            <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                        </div>
+
+                        <x-primary-button class="mt-3">Create</x-primary-button>
+
+                        @if($errors->any())
+                            @foreach ($errors->all() as $error)
+                                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                                        <div class="p-6 text-gray-900 dark:text-gray-100">
+                                            {{ $error }}
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+                </form>
+            </x-modal>
         <!--
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
