@@ -1,5 +1,4 @@
-@import url('../../node_modules/font-awesome/css/font-awesome.css');
-
+@import url("../../node_modules/font-awesome/css/font-awesome.min.css");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

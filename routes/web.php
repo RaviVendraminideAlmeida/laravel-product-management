@@ -1,17 +1,26 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use \App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function(){
-    return redirect(['/login']);
+    return redirect('/login');
 })->name('index');
 
-Route::get('/categories', function() {
-    return view('categories');
-})->middleware(['auth', 'verified'])->name('categories');
+Route::middleware('auth')->group(function () {
+    Route::get('/categories', [CategoryController::class, 'index'])->name('category.index');
+    Route::post('/categories', [CategoryController::class, 'create'])->name('category.create');
+    Route::patch('/categories', [CategoryController::class, 'update'])->name('category.update');
+    Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
+});
 
+/*
+    Route::get('/categories', function() {
+        return view('categories');
+    })->middleware(['auth', 'verified'])->name('categories');
+*/
 Route::get('/products', function() {
     return view('products');
 })->middleware(['auth', 'verified'])->name('products');
